@@ -8,11 +8,9 @@ import jeka.tsen.shopping_cart_dream_shop.request.ProductUpdateRequest;
 import jeka.tsen.shopping_cart_dream_shop.response.ApiResponse;
 import jeka.tsen.shopping_cart_dream_shop.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.NotFound;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.annotation.Repeatable;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -55,10 +53,10 @@ public class ProductController {
         }
     }
 
-    @PutMapping("/prodcut/{productId}/update")
-    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest product, @PathVariable Long id){
+    @PutMapping("/product/{productId}/update")
+    public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductUpdateRequest product, @PathVariable Long productId){
         try {
-            Product updatedProduct = productService.updateProduct(product, id);
+            Product updatedProduct = productService.updateProduct(product, productId);
             return ResponseEntity.ok(new ApiResponse("Update product was successed", updatedProduct));
         } catch (ResourseNotFoundException e) {
           return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
@@ -105,7 +103,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/prodcuts/{name}/products")
+    @GetMapping("/products/{name}/products")
     public ResponseEntity<ApiResponse> getProductByName (@PathVariable String name){
         try {
             List<Product> products = productService.getProductByName(name);
