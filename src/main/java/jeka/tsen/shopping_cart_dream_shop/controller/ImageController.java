@@ -49,7 +49,7 @@ public class ImageController {
     }
 
 
-    @PutMapping("image/{imageId}/update")
+    @PutMapping("/image/{imageId}/update")
     public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId, @RequestBody MultipartFile file){
         try {
             Image image = imageService.getImageById(imageId);
@@ -66,11 +66,11 @@ public class ImageController {
 
 
     @DeleteMapping("/image/{imageId}/delete")
-    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long ImageId) {
+    public ResponseEntity<ApiResponse> deleteImage(@PathVariable Long imageId) {
         try {
-            Image image = imageService.getImageById(ImageId);
+            Image image = imageService.getImageById(imageId);
             if(image != null) {
-                imageService.deleteImageById(ImageId);
+                imageService.deleteImageById(imageId);
                 return ResponseEntity.ok(new ApiResponse("Delete success", null));
             }
         } catch (ResourseNotFoundException e) {

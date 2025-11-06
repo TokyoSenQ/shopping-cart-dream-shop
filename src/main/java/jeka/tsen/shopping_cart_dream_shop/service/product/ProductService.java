@@ -1,13 +1,18 @@
 package jeka.tsen.shopping_cart_dream_shop.service.product;
 
+import jeka.tsen.shopping_cart_dream_shop.dto.ImageDto;
+import jeka.tsen.shopping_cart_dream_shop.dto.ProductDto;
 import jeka.tsen.shopping_cart_dream_shop.exceptions.ProductNotFoundExcpetion;
 import jeka.tsen.shopping_cart_dream_shop.model.Category;
+import jeka.tsen.shopping_cart_dream_shop.model.Image;
 import jeka.tsen.shopping_cart_dream_shop.model.Product;
 import jeka.tsen.shopping_cart_dream_shop.repository.CategoryRepository;
+import jeka.tsen.shopping_cart_dream_shop.repository.ImageRepository;
 import jeka.tsen.shopping_cart_dream_shop.repository.ProductRepository;
 import jeka.tsen.shopping_cart_dream_shop.request.AddProductRequest;
 import jeka.tsen.shopping_cart_dream_shop.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +23,8 @@ import java.util.Optional;
 public class ProductService implements IProductService{
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+    private final ImageRepository imageRepository;
 
     @Override
     public Product addProduct(AddProductRequest request) {
@@ -113,5 +120,23 @@ public class ProductService implements IProductService{
     @Override
     public Long countProductsByBrandAndName(String brand, String name) {
         return productRepository.countByBrandAndName(brand, name);
+    }
+
+    @Override
+    public List<ProductDto> getConvertedProducts(List<Product> products) {
+        return products.stream().map(this::convertToDto).toList();
+    }
+
+
+    @Override
+    public ProductDto convertToDto(Product product){
+        ProductDto productDto = modelMapper.map(product, ProductDto.class);
+        List<Image> images = imageRepository.findByProductId(product.getId());
+        List<ImageDto> imageDtos = images.stream()
+                .map(image -> modelMapper.map(image, ImageDto.class))
+                .toList();
+
+        productDto.setImages(imageDtos);
+        return productDto;
     }
 }

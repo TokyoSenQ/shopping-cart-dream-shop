@@ -1,5 +1,6 @@
 package jeka.tsen.shopping_cart_dream_shop.service.product;
 
+import jeka.tsen.shopping_cart_dream_shop.dto.ProductDto;
 import jeka.tsen.shopping_cart_dream_shop.model.Product;
 import jeka.tsen.shopping_cart_dream_shop.request.AddProductRequest;
 import jeka.tsen.shopping_cart_dream_shop.request.ProductUpdateRequest;
@@ -22,4 +23,7 @@ public interface IProductService {
     Long countProductsByBrandAndName(String brand, String name);
 
 
+    List<ProductDto> getConvertedProducts(List<Product> products);
+
+    ProductDto convertToDto(Product product);
 }
