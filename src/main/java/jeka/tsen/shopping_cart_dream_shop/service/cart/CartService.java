@@ -1,5 +1,6 @@
 package jeka.tsen.shopping_cart_dream_shop.service.cart;
 
+import jakarta.transaction.Transactional;
 import jeka.tsen.shopping_cart_dream_shop.model.Cart;
 import jeka.tsen.shopping_cart_dream_shop.repository.CartItemRepository;
 import jeka.tsen.shopping_cart_dream_shop.repository.CartRepository;
@@ -26,6 +27,7 @@ public class CartService implements ICartService{
         return cartRepository.save(cart);
     }
 
+    @Transactional
     @Override
     public void clearCart(Long id) {
         Cart cart = getCart(id);
