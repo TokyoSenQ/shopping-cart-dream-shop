@@ -23,7 +23,6 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("${api.prefix}/categories")
 public class CategoryController {
     private final ICategoryService categoryService;
-    private final Servlet servlet;
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllCategories () {

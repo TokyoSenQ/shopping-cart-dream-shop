@@ -15,7 +15,3 @@ public class ProductUpdateRequest {
     private String description;
     private Category category;
 }
-
-
-
-//2) differenza tra Categoria e Prodotto. Metodi addCategory e updateCategory e ProductUpdateRequest
